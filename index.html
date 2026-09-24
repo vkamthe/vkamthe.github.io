@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vikram Kamthe — Projects & Live Dashboards</title>
+  <meta name="description" content="Portfolio of interactive web applications, financial market dashboards, geospatial tools, and utilities by Vikram Kamthe.">
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vkamthe.github.io/">
+  <meta property="og:title" content="Vikram Kamthe — Projects & Live Dashboards">
+  <meta property="og:description" content="Explore live financial market trackers, macroeconomic valuation models, geospatial visualizations, and tools.">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-body: #0a0e17;
+      --bg-header: rgba(10, 14, 23, 0.85);
+      --bg-card: #111827;
+      --bg-card-hover: #172235;
+      --bg-card-elevated: #1f293d;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(59, 130, 246, 0.4);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --accent-blue: #3b82f6;
+      --accent-blue-glow: rgba(59, 130, 246, 0.15);
+      --accent-green: #10b981;
+      --accent-green-glow: rgba(16, 185, 129, 0.2);
+      --accent-amber: #f59e0b;
+      --accent-purple: #8b5cf6;
+      --tag-bg: rgba(255, 255, 255, 0.06);
+      --tag-text: #cbd5e1;
+      --btn-primary-bg: #2563eb;
+      --btn-primary-hover: #1d4ed8;
+      --btn-primary-text: #ffffff;
+      --btn-secondary-bg: rgba(255, 255, 255, 0.07);
+      --btn-secondary-hover: rgba(255, 255, 255, 0.12);
+      --btn-secondary-text: #e2e8f0;
+      --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+      --shadow-card-hover: 0 12px 30px -4px rgba(0, 0, 0, 0.7);
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    [data-theme="light"] {
+      --bg-body: #f8fafc;
+      --bg-header: rgba(248, 250, 252, 0.88);
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --bg-card-elevated: #e2e8f0;
+      --border-subtle: #e2e8f0;
+      --border-hover: rgba(37, 99, 235, 0.4);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --accent-blue: #2563eb;
+      --accent-blue-glow: rgba(37, 99, 235, 0.1);
+      --accent-green: #059669;
+      --accent-green-glow: rgba(5, 150, 105, 0.15);
+      --accent-amber: #d97706;
+      --accent-purple: #7c3aed;
+      --tag-bg: #f1f5f9;
+      --tag-text: #334155;
+      --btn-primary-bg: #2563eb;
+      --btn-primary-hover: #1d4ed8;
+      --btn-primary-text: #ffffff;
+      --btn-secondary-bg: #f1f5f9;
+      --btn-secondary-hover: #e2e8f0;
+      --btn-secondary-text: #1e293b;
+      --shadow-card: 0 4px 15px -2px rgba(0, 0, 0, 0.05);
+      --shadow-card-hover: 0 12px 25px -4px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header & Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background-color: var(--bg-header);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: white;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .gh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 8px;
+      text-decoration: none;
+      background: var(--btn-secondary-bg);
+      color: var(--btn-secondary-text);
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s ease;
+    }
+
+    .gh-btn:hover {
+      background: var(--btn-secondary-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--btn-secondary-bg);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      background: var(--btn-secondary-hover);
+      border-color: var(--border-hover);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent-green-glow);
+      color: var(--accent-green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 700px;
+    }
+
+    /* Toolbar / Filters */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      color: var(--text-main);
+      border-color: var(--text-dim);
+    }
+
+    .filter-btn.active {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
+      box-shadow: 0 2px 10px var(--accent-blue-glow);
+    }
+
+    .search-wrapper {
+      position: relative;
+      min-width: 260px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.45rem 0.85rem 0.45rem 2.2rem;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-main);
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px var(--accent-blue-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-card-hover);
+      background-color: var(--bg-card-hover);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .card-icon-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--bg-card-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--accent-green);
+      background: var(--accent-green-glow);
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      flex-shrink: 0;
+    }
+
+    .live-status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+      flex: 1;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      background-color: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 0.2rem 0.55rem;
+      border-radius: 5px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.65rem;
+      margin-top: auto;
+    }
+
+    .btn-launch {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-launch:hover {
+      background: var(--btn-primary-hover);
+      box-shadow: 0 4px 14px var(--accent-blue-glow);
+      transform: translateY(-1px);
+    }
+
+    .btn-source {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      background: var(--btn-secondary-bg);
+      color: var(--btn-secondary-text);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.55rem 0.85rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-source:hover {
+      background: var(--btn-secondary-hover);
+      border-color: var(--border-hover);
+    }
+
+    /* Additional Repositories Section */
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .repo-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1rem;
+    }
+
+    .repo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .repo-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .repo-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--accent-blue);
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .repo-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      background: var(--bg-body);
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--accent-blue);
+      text-decoration: underline;
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+      font-size: 1rem;
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-wrapper {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="https://vkamthe.github.io/" class="brand">
+        <div class="brand-avatar">VK</div>
+        <div>
+          <div class="brand-title">Vikram Kamthe</div>
+          <div class="brand-subtitle">GitHub Pages Portal</div>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <a href="https://github.com/vkamthe" target="_blank" rel="noopener noreferrer" class="gh-btn">
+          <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          GitHub Profile
+        </a>
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle dark/light theme" title="Toggle theme">
+          <span id="themeIcon">☀️</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Header -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        <span>5 Live Applications Deployed</span>
+      </div>
+      <h1>Project Hub &amp; Live Dashboards</h1>
+      <p>A central gateway to interactive financial dashboards, valuation metrics, geospatial travel logs, and algorithmic tools hosted on GitHub Pages.</p>
+    </section>
+
+    <!-- Toolbar / Filter & Search -->
+    <section class="toolbar">
+      <div class="filter-group" role="tablist">
+        <button class="filter-btn active" data-filter="all">All Projects (5)</button>
+        <button class="filter-btn" data-filter="finance">Finance &amp; Markets (3)</button>
+        <button class="filter-btn" data-filter="visualizations">Visualizations &amp; Maps (1)</button>
+        <button class="filter-btn" data-filter="utilities">Utilities &amp; Games (1)</button>
+      </div>
+
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="projectSearch" class="search-input" placeholder="Search projects, tags..." aria-label="Search projects">
+      </div>
+    </section>
+
+    <!-- Project Cards Grid -->
+    <section class="grid" id="projectGrid">
+      
+      <!-- Card 1: NIFTY Live Indices Tracker -->
+      <article class="card" data-category="finance" data-tags="nifty live indices tracker nse india stock market real-time finance sectoral broad market">
+        <div class="card-header">
+          <div class="card-icon-title">
+            <div class="card-icon" style="color: #10b981;">📈</div>
+            <h2 class="card-title">NIFTY Live Indices Tracker</h2>
+          </div>
+          <span class="live-status">LIVE</span>
+        </div>
+        <p class="card-desc">
+          Real-time tracking for NSE India benchmarks. Monitors Broad Market, Sectoral, Thematic, and Strategy indices with live pricing, daily percentage change heatmaps, and performance metrics.
+        </p>
+        <div class="tags">
+          <span class="tag">NSE India</span>
+          <span class="tag">Live Market</span>
+          <span class="tag">Finance</span>
+          <span class="tag">JavaScript</span>
+        </div>
+        <div class="card-actions">
+          <a href="https://vkamthe.github.io/nifty-live-indices/" class="btn-launch" target="_blank" rel="noopener noreferrer">
+            Open Dashboard
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+          <a href="https://github.com/vkamthe/nifty-live-indices" class="btn-source" target="_blank" rel="noopener noreferrer" title="View Source Code">
+            GitHub
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 2: Gold Valuation Dashboard -->
+      <article class="card" data-category="finance" data-tags="gold valuation macro metrics 50-year m2 money supply inflation real price chart.js commodities">
+        <div class="card-header">
+          <div class="card-icon-title">
+            <div class="card-icon" style="color: #f59e0b;">🪙</div>
+            <h2 class="card-title">Gold Valuation Dashboard</h2>
+          </div>
+          <span class="live-status">LIVE</span>
+        </div>
+        <p class="card-desc">
+          Comprehensive 50-year macroeconomic gold valuation modeling. Analyzes historical gold prices against US M2 Money Supply expansion, CPI inflation-adjusted benchmarks, and Gold/Silver and Gold/Oil commodity ratios.
+        </p>
+        <div class="tags">
+          <span class="tag">Macroeconomics</span>
+          <span class="tag">Gold &amp; M2</span>
+          <span class="tag">Chart.js</span>
+          <span class="tag">Valuation</span>
+        </div>
+        <div class="card-actions">
+          <a href="https://vkamthe.github.io/gold-valuation-dashboard/" class="btn-launch" target="_blank" rel="noopener noreferrer">
+            Open Dashboard
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+          <a href="https://github.com/vkamthe/gold-valuation-dashboard" class="btn-source" target="_blank" rel="noopener noreferrer" title="View Source Code">
+            GitHub
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 3: Nifty Valuation Dashboard -->
+      <article class="card" data-category="finance" data-tags="nifty valuation dashboard pe pb ratio dividend yield 2026 projections equities benchmarks">
+        <div class="card-header">
+          <div class="card-icon-title">
+            <div class="card-icon" style="color: #38bdf8;">📊</div>
+            <h2 class="card-title">Nifty Valuation Dashboard</h2>
+          </div>
+          <span class="live-status">LIVE</span>
+        </div>
+        <p class="card-desc">
+          Valuation modeling and trend forecasts through 2026 end across key Indian equity indices. Features interactive P/E, P/B, and dividend yield benchmark comparisons against long-term historical percentiles.
+        </p>
+        <div class="tags">
+          <span class="tag">Equities</span>
+          <span class="tag">P/E &amp; P/B Ratios</span>
+          <span class="tag">Forecasting</span>
+          <span class="tag">Nifty 50</span>
+        </div>
+        <div class="card-actions">
+          <a href="https://vkamthe.github.io/nifty-valuation-dashboard/" class="btn-launch" target="_blank" rel="noopener noreferrer">
+            Open Dashboard
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+          <a href="https://github.com/vkamthe/nifty-valuation-dashboard" class="btn-source" target="_blank" rel="noopener noreferrer" title="View Source Code">
+            GitHub
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 4: Location Odyssey -->
+      <article class="card" data-category="visualizations" data-tags="location odyssey world map google location history travel geospatial leaflet gis 2011 2026">
+        <div class="card-header">
+          <div class="card-icon-title">
+            <div class="card-icon" style="color: #ec4899;">🌍</div>
+            <h2 class="card-title">Location Odyssey</h2>
+          </div>
+          <span class="live-status">LIVE</span>
+        </div>
+        <p class="card-desc">
+          An interactive world map and geospatial journey chronicle visualizing 15 years of personal Google Location History (2011–2026). Explores travels, cities, and waypoints with interactive Leaflet mapping.
+        </p>
+        <div class="tags">
+          <span class="tag">Leaflet.js</span>
+          <span class="tag">Geospatial</span>
+          <span class="tag">Location History</span>
+          <span class="tag">Data Viz</span>
+        </div>
+        <div class="card-actions">
+          <a href="https://vkamthe.github.io/location-odyssey/" class="btn-launch" target="_blank" rel="noopener noreferrer">
+            Explore Map
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+          <a href="https://github.com/vkamthe/location-odyssey" class="btn-source" target="_blank" rel="noopener noreferrer" title="View Source Code">
+            GitHub
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 5: Wordle Helper -->
+      <article class="card" data-category="utilities" data-tags="wordle helper puzzle solver game algorithm heuristics letter frequency entropy words">
+        <div class="card-header">
+          <div class="card-icon-title">
+            <div class="card-icon" style="color: #a855f7;">🟩</div>
+            <h2 class="card-title">Wordle Helper</h2>
+          </div>
+          <span class="live-status">LIVE</span>
+        </div>
+        <p class="card-desc">
+          Intelligent Wordle puzzle assistant that ranks suggested guesses by letter-frequency heuristics and color-tile constraints. Narrows down dictionary possibilities with every guess attempt.
+        </p>
+        <div class="tags">
+          <span class="tag">Puzzle Solver</span>
+          <span class="tag">Algorithms</span>
+          <span class="tag">Wordle</span>
+          <span class="tag">Heuristics</span>
+        </div>
+        <div class="card-actions">
+          <a href="https://vkamthe.github.io/wordlehelper/" class="btn-launch" target="_blank" rel="noopener noreferrer">
+            Launch Helper
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+          <a href="https://github.com/vkamthe/wordlehelper" class="btn-source" target="_blank" rel="noopener noreferrer" title="View Source Code">
+            GitHub
+          </a>
+        </div>
+      </article>
+
+      <!-- Empty state when search yields no match -->
+      <div class="no-results" id="noResults">
+        <p>No projects found matching your search.</p>
+      </div>
+
+    </section>
+
+    <!-- Additional Repositories & Work -->
+    <section>
+      <h2 class="section-title">
+        <span>📦</span> Other Repositories &amp; Projects
+      </h2>
+      <p class="section-desc">Selected open source projects, algorithm experiments, and learning repositories on GitHub.</p>
+
+      <div class="repo-list">
+        <a href="https://github.com/vkamthe/SudokuSolver" target="_blank" rel="noopener noreferrer" class="repo-card">
+          <div>
+            <div class="repo-name">
+              <span>SudokuSolver</span>
+              <span>↗</span>
+            </div>
+            <p class="repo-desc">Backtracking and constraint satisfaction algorithms for solving arbitrary Sudoku puzzles.</p>
+          </div>
+        </a>
+
+        <a href="https://github.com/vkamthe/streamlit" target="_blank" rel="noopener noreferrer" class="repo-card">
+          <div>
+            <div class="repo-name">
+              <span>streamlit</span>
+              <span>↗</span>
+            </div>
+            <p class="repo-desc">Streamlit proofs-of-concept and lightweight interactive Python data applications.</p>
+          </div>
+        </a>
+
+        <a href="https://github.com/vkamthe/golden-jubilee-50" target="_blank" rel="noopener noreferrer" class="repo-card">
+          <div>
+            <div class="repo-name">
+              <span>golden-jubilee-50</span>
+              <span>↗</span>
+            </div>
+            <p class="repo-desc">Commemorative project repository and celebratory web page assets.</p>
+          </div>
+        </a>
+
+        <a href="https://github.com/vkamthe/introtodeeplearning" target="_blank" rel="noopener noreferrer" class="repo-card">
+          <div>
+            <div class="repo-name">
+              <span>introtodeeplearning</span>
+              <span>↗</span>
+            </div>
+            <p class="repo-desc">Lab materials, neural network architectures, and deep learning experiments.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+      <div>
+        &copy; <span id="year">2026</span> <a href="https://github.com/vkamthe">Vikram Kamthe</a>. Hosted on GitHub Pages.
+      </div>
+      <div>
+        <a href="https://github.com/vkamthe/vkamthe.github.io" target="_blank" rel="noopener noreferrer">View Portal Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Filtering & Theme Switching -->
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const htmlElement = document.documentElement;
+
+    const savedTheme = localStorage.getItem('vk_theme') || 'dark';
+    setTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+    });
+
+    function setTheme(theme) {
+      htmlElement.setAttribute('data-theme', theme);
+      localStorage.setItem('vk_theme', theme);
+      themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // Dynamic Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Filtering & Search
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const searchInput = document.getElementById('projectSearch');
+    const cards = document.querySelectorAll('#projectGrid .card');
+    const noResults = document.getElementById('noResults');
+
+    let currentFilter = 'all';
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter');
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener('input', () => {
+      applyFilters();
+    });
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const category = card.getAttribute('data-category');
+        const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+        const title = card.querySelector('.card-title').textContent.toLowerCase();
+        const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+
+        const matchesFilter = (currentFilter === 'all' || category === currentFilter);
+        const matchesSearch = !query || title.includes(query) || desc.includes(query) || tags.includes(query);
+
+        if (matchesFilter && matchesSearch) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
